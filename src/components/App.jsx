@@ -1,29 +1,50 @@
 import React, { Component } from 'react';
-import TodoList from './TodoList/TodoList.jsx';
-import CreateTodoForm from './Forms/CreateTodoForm/CreateTodoForm.jsx';
-import data from './listContacts.json';
+import ContactList from './ContactList/ContactList.jsx';
+import ContactForm from './ContactForm/ContactForm.jsx';
+// import data from './listContacts.json';
 import { nanoid } from 'nanoid';
+import Filter from './Filter/Filter.jsx';
 
 class App extends Component {
   state = {
-    contacts: data,
+    contacts: [],
+    filter: '',
     name: '',
   };
 
-  addTodo = newTodo => {
-    const todoObj = {
-      ...newTodo,
+  addContact = newContact => {
+    const objectContact = {
+      ...newContact,
       id: nanoid(),
     };
-    this.setState(prev => ({ contacts: [...prev.contacts], todoObj }));
-    console.log(todoObj);
+    this.setState(prev => ({ contacts: [...prev.contacts, objectContact] }));
+  };
+
+  deleteContact = id => {
+    this.setState(prev => ({
+      contacts: prev.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
+  changeFilter = event => {
+    this.setState({ filter: event.target.value });
   };
 
   render() {
+    const lowerCase = this.state.filter.toLowerCase();
+    const visibleContacts = this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(lowerCase)
+    );
     return (
       <>
-        <CreateTodoForm addTodo={this.addTodo} />
-        <TodoList contacts={this.state.contacts} />
+        <h1>Phonebook</h1>
+        <ContactForm addContact={this.addContact} />
+        <h2>Contacts</h2>
+        <Filter value={this.state.filter} changeFilter={this.changeFilter} />
+        <ContactList
+          contacts={visibleContacts}
+          deleteContact={this.deleteContact}
+        />
       </>
     );
   }
