@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import css from './ContactForm.module.css';
+import contacts from '../App.jsx';
 
 class ContactForm extends Component {
   state = {
@@ -9,8 +10,23 @@ class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addContact(this.state);
+  this.props.addContact(this.state);
+  console.log(contacts);
+    const isExist = contacts.filter(contact => contact.name === this.state.name);
+console.log(isExist);
+
+// if (isExist) {
+//   alert(`${this.state.name} is already in contacts.`);
+//   return
+// } else {
+//         this.props.addContact(this.state);
+//       this.setState({
+//         name: '',
+//         number: '',
+//       });
+// }
   };
+
   handleChange = ({ target: { value, name } }) => {
     this.setState({ [name]: value });
   };
@@ -25,7 +41,7 @@ class ContactForm extends Component {
             type="text"
             name="name"
             onChange={this.handleChange}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
@@ -38,7 +54,7 @@ class ContactForm extends Component {
             type="tel"
             name="number"
             onChange={this.handleChange}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />

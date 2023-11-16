@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm addContact={this.addContact} />
+        <ContactForm contacts={this.state.contacts} addContact={this.addContact} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} changeFilter={this.changeFilter} />
         <ContactList
