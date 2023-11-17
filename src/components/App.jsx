@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ContactList from './ContactList/ContactList.jsx';
 import ContactForm from './ContactForm/ContactForm.jsx';
-// import data from './listContacts.json';
 import { nanoid } from 'nanoid';
 import Filter from './Filter/Filter.jsx';
 
@@ -13,29 +12,22 @@ class App extends Component {
   };
 
   addContact = newContact => {
-    const objectContact = {
-      ...newContact,
-      id: nanoid(),
-    };
-    this.setState(
-      prev => ({ contacts: [...prev.contacts, objectContact] }),
-      () => {
-        const isExist = this.state.contacts.filter(
-          contact => contact.name === newContact.name
-      );
-console.log(newContact.name);
-        if (isExist) {
-          alert(`${newContact.name} is already in contacts.`);
-          return;
-        } else {
-          this.addContact(newContact.name);
-          this.setState({
-            name: '',
-            number: '',
-          });
-        }
-      }
+    const isExist = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
+    if (isExist) {
+      alert(`${newContact.name} is already in contacts.`);
+      return;
+    }
+    this.setState(prev => ({
+      contacts: [
+        ...prev.contacts,
+        {
+          ...newContact,
+          id: nanoid(),
+        },
+      ],
+    }));
   };
 
   deleteContact = id => {
