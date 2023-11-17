@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import css from './ContactForm.module.css';
-import contacts from '../App.jsx';
 
 class ContactForm extends Component {
   state = {
@@ -11,20 +10,6 @@ class ContactForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
   this.props.addContact(this.state);
-  console.log(contacts);
-    const isExist = contacts.filter(contact => contact.name === this.state.name);
-console.log(isExist);
-
-// if (isExist) {
-//   alert(`${this.state.name} is already in contacts.`);
-//   return
-// } else {
-//         this.props.addContact(this.state);
-//       this.setState({
-//         name: '',
-//         number: '',
-//       });
-// }
   };
 
   handleChange = ({ target: { value, name } }) => {

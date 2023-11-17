@@ -17,7 +17,25 @@ class App extends Component {
       ...newContact,
       id: nanoid(),
     };
-    this.setState(prev => ({ contacts: [...prev.contacts, objectContact] }));
+    this.setState(
+      prev => ({ contacts: [...prev.contacts, objectContact] }),
+      () => {
+        const isExist = this.state.contacts.filter(
+          contact => contact.name === newContact.name
+      );
+console.log(newContact.name);
+        if (isExist) {
+          alert(`${newContact.name} is already in contacts.`);
+          return;
+        } else {
+          this.addContact(newContact.name);
+          this.setState({
+            name: '',
+            number: '',
+          });
+        }
+      }
+    );
   };
 
   deleteContact = id => {
@@ -38,7 +56,7 @@ class App extends Component {
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm contacts={this.state.contacts} addContact={this.addContact} />
+        <ContactForm addContact={this.addContact} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} changeFilter={this.changeFilter} />
         <ContactList
